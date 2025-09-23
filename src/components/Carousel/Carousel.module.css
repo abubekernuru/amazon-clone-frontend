@@ -1,0 +1,88 @@
+/* Main carousel container */
+.carousel {
+  position: relative;
+  width: 100%;
+  height: 600px; 
+}
+
+/* Carousel image */
+.carousel__image {
+  width: 100%;
+  height: 600px;
+  object-fit: cover;
+}
+
+/* Simple gradient at bottom */
+.carousel__gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2));
+}
+
+/* Hide elements we don't need */
+.carousel :global(.carousel-status),
+.carousel :global(.thumbs-wrapper) {
+  display: none;
+}
+
+/* Simple centered dots */
+.carousel :global(.control-dots) {
+  bottom: 20px;
+  text-align: center;
+}
+
+.carousel :global(.dot) {
+  background: white;
+  width: 10px;
+  height: 10px;
+  margin: 0 5px;
+  opacity: 0.7;
+}
+
+.carousel :global(.dot.selected) {
+  opacity: 1;
+}
+
+/* Amazon-style arrows */
+.carousel :global(.control-arrow) {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  opacity: 0;
+  width: 50px;
+  height: 300px;
+}
+
+.carousel:hover :global(.control-arrow) {
+  opacity: 1;
+}
+
+.carousel :global(.control-arrow:before) {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+/* Left arrow - point left */
+.carousel :global(.control-prev) {
+  left: 0;
+}
+
+/* Right arrow - point right */
+.carousel :global(.control-next) {
+  right: 0;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .carousel,
+  .carousel__image {
+    height: 200px;
+  }
+  
+  .carousel :global(.control-arrow) {
+    display: none;
+  }
+}
