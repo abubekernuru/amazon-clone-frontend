@@ -10,11 +10,12 @@ const AmazonCarousel = () => {
       <Carousel
         autoPlay
         infiniteLoop
-        interval={5000}
+        interval={8000}
         showStatus={false}
         showThumbs={false}
         showIndicators={false}
         stopOnHover={false}
+        transitionTime={1000} 
       >
         {img.map((image, index) => (
           <div key={index}>

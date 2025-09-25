@@ -18,8 +18,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 100px;
-  background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.2));
+  height: 200px;
+  background: linear-gradient(to bottom, transparent, rgb(255,255,255));
 }
 
 /* Hide elements we don't need */
@@ -75,12 +75,19 @@
   right: 0;
 }
 
+.carousel :global(.carousel .slide) {
+  transition: transform 1s ease-in-out !important; /* ✅ smooth slide transition */
+}
+
 /* Mobile styles */
 @media (max-width: 768px) {
   .carousel,
   .carousel__image {
-    height: 200px;
+    height: 300px;
   }
+    .carousel__gradient {
+      height: 400px;
+    }
   
   .carousel :global(.control-arrow) {
     display: none;
