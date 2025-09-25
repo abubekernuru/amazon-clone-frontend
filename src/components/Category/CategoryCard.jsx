@@ -1,11 +1,10 @@
-// src/components/category/CategoryCard.jsx
 import React from 'react';
 import classes from './category.module.css';
 
 const CategoryCard = ({ data }) => {
   return (
     <div className={classes.category}>
-      <a href={`/category/${data.name}`} className={classes.categoryLink}>
+      <a href="/" className={classes.categoryLink}>
         <span className={classes.categoryContent}>
           <h2 className={classes.categoryTitle}>{data.title}</h2>
           <img 
