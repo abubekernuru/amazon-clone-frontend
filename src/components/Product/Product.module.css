@@ -1,4 +1,4 @@
-/* Amazon color variables - matching actual Amazon colors */
+
 :root {
   --amazon-orange: #ffd814;
   --amazon-orange-hover: #f7ca00;
@@ -9,8 +9,6 @@
   --amazon-gray: #565959;
   --amazon-light-bg: #eaeded;
 }
-
-/* Main products container - White background with wide spacing */
 .productsContainer {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -18,12 +16,10 @@
   margin: 40px auto;
   gap: 30px;
   padding: 60px 80px;
-  background-color: white; /* CHANGED: White background */
   min-height: 100vh;
   box-sizing: border-box;
 }
 
-/* Product card - Amazon style */
 .productCard {
   width: 100%;
   background: white;
@@ -44,7 +40,6 @@
   transform: translateY(-3px);
 }
 
-/* Product image styling */
 .productImage {
   width: 100%;
   height: 220px;
@@ -57,7 +52,6 @@
   display: block;
 }
 
-/* Product info styling */
 .productInfo {
   flex: 1;
   display: flex;
@@ -78,7 +72,6 @@
   font-weight: 400;
 }
 
-/* Rating styling */
 .productRating {
   display: flex;
   align-items: center;
@@ -92,7 +85,6 @@
   margin-left: 4px;
 }
 
-/* Price styling */
 .productPrice {
   margin-top: auto;
   font-size: 20px;
@@ -101,7 +93,6 @@
   margin-bottom: 20px;
 }
 
-/* Add to Cart Button - Amazon style */
 .button {
   width: 100%;
   padding: 12px 0;
@@ -124,7 +115,6 @@
   background: var(--amazon-orange-hover);
 }
 
-/* Responsive design - Amazon style breakpoints */
 @media (max-width: 1400px) {
   .productsContainer {
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
