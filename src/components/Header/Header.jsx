@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import classes from './Header.module.css';
 import LowerHeader from './LowerHeader';
+import { Link } from 'react-router';
 import { 
   FaMapMarkerAlt, 
   FaSearch, 
@@ -26,13 +27,13 @@ const Header = () => {
           {/* First Div: Logo, Delivery, Icon */}
           <div className={classes.header__first}>
             {/* Logo */}
-            <div className={classes.header__logo}>
+            <Link to='/' className={classes.header__logo}>
               <img 
                 src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" 
                 alt="Amazon Logo" 
                 className={classes.header__logo__image}
               />
-            </div>
+            </Link>
 
             {/* Delivery */}
             <div className={classes.header__delivery}>
@@ -77,29 +78,27 @@ const Header = () => {
               <span className={classes.header__language__code}>ET</span>
               <FaCaretDown className={classes.header__language__icon} />
             </div>
-
-            {/* Sign In */}
-            <div className={classes.header__account}>
+            {/* SignUp */}
+            <Link to='/auth' className={classes.header__account}>
               <div className={classes.header__account__greeting}>Hello, sign in</div>
               <div className={classes.header__account__action}>
                 Account & Lists <FaCaretDown className={classes.header__account__icon} />
               </div>
-            </div>
+            </Link>
 
             {/* Returns & Orders */}
-            <div className={classes.header__orders}>
+            <Link to='/orders' className={classes.header__orders}>
               <div className={classes.header__orders__returns}>Returns</div>
               <div className={classes.header__orders__text}>& Orders</div>
-            </div>
+            </Link>
 
             {/* Cart */}
-            <div className={classes.header__cart}>
+            <Link to='/cart' className={classes.header__cart}>
               <div className={classes.header__cart__info}>
                 <span className={classes.header__cart__count}>0</span>
                 <FaShoppingCart className={classes.header__cart__icon} />
               </div>
-              <div className={classes.header__cart__text}>Cart</div>
-            </div>
+            </Link>
 
             {/* Mobile Menu Button */}
             <button 

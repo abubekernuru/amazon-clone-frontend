@@ -284,6 +284,8 @@
   height: 40px;
   margin: 10px 0 10px 5px;
   position: relative;
+  text-decoration: none;
+  color: #ccc;
 }
 
 .header__cart:hover {
@@ -295,6 +297,8 @@
   align-items: center;
   position: relative;
   margin-top: 5px;
+  text-decoration: none;
+  color: white;
 }
 
 .header__cart__count {
@@ -305,20 +309,34 @@
   top: -12px;
   left: 16px;
   z-index: 1;
+  text-decoration: none;
 }
 
 .header__cart__icon {
   font-size: 36px;
   width: 36px;
   height: 26px;
+  color: white;
+  text-decoration: none;
 }
 
-.header__cart__text {
-  font-size: 13px;
-  font-weight: 700;
-  margin-top: 15px;
-  margin-left: 2px;
+.header__logo,
+.header__account,
+.header__orders,
+.header__cart {
+  text-decoration: none;
+  color: white;
 }
+
+.header__logo:hover,
+.header__account:hover,
+.header__orders:hover,
+.header__cart:hover {
+  text-decoration: none;
+  color: white;
+}
+
+
 
 .header__mobile__button {
   display: none;
