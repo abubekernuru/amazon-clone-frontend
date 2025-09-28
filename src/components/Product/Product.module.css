@@ -50,6 +50,7 @@
 .productLink {
   text-decoration: none;
   display: block;
+  cursor: pointer;
 }
 
 .productInfo {
