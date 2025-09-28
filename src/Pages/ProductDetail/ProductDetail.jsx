@@ -5,6 +5,7 @@ import { useParams } from 'react-router'
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { productUrl } from '../../Api/endPoints';
+import Loader from '../../components/Loader/Loader';
 
 function ProductDetail() {
   const { productId } = useParams();
@@ -37,7 +38,7 @@ function ProductDetail() {
   if (loading) {
     return (
       <Layout>
-        <div className={classes.loading}>Loading product...</div>
+        <Loader />
       </Layout>
     );
   }
