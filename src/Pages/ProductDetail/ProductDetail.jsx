@@ -10,12 +10,11 @@ function ProductDetail() {
   const { productId } = useParams();
   console.log("Product ID:", productId);
   
-  const [product, setProduct] = useState({}); // Fixed useState initialization
+  const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fixed: Added async function to fetch product data
     const fetchProduct = async () => {
       try {
         setLoading(true);
@@ -33,7 +32,7 @@ function ProductDetail() {
     if (productId) {
       fetchProduct();
     }
-  }, [productId]); // Fixed: Added dependency array
+  }, [productId]); 
 
   if (loading) {
     return (
