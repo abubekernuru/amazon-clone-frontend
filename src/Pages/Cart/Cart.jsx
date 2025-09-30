@@ -5,6 +5,7 @@ import { DataContext } from '../../components/DataProvider/DataProvider';
 import CurrencyFormat from '../../components/CurrencyFormat/CurrencyFormat';
 import styles from './Cart.module.css';
 import { Type } from '../../Utility/action.type';
+import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'; // import arrows
 
 // Cart item component
 const CartItem = ({ item }) => {
@@ -29,9 +30,13 @@ const CartItem = ({ item }) => {
         <h4>{item.title}</h4>
         <p>${item.price}</p>
         <div className={styles.qtyControl}>
-          <button onClick={decrement}>-</button>
+          <button onClick={increment} className={styles.qtyBtn}>
+            <AiOutlineUp size={16} />
+          </button>
           <span>{item.qty}</span>
-          <button onClick={increment}>+</button>
+          <button onClick={decrement} className={styles.qtyBtn}>
+            <AiOutlineDown size={16} />
+          </button>
         </div>
       </div>
     </div>
@@ -41,13 +46,11 @@ const CartItem = ({ item }) => {
 function Cart() {
   const [{ basket }] = useContext(DataContext);
 
-  // Total price
   const total = basket.reduce(
     (amount, item) => amount + item.price * (item.qty || 1),
     0
   );
 
-  // Total items
   const itemCount = basket.reduce(
     (count, item) => count + (item.qty || 1),
     0
@@ -56,7 +59,6 @@ function Cart() {
   return (
     <Layout>
       <section className={styles.cart}>
-        {/* Left side - Basket Items */}
         <div className={styles.cart__items}>
           <h2>Hello</h2>
           <h3>Your shopping basket</h3>
@@ -68,7 +70,6 @@ function Cart() {
           )}
         </div>
 
-        {/* Right side - Subtotal */}
         {basket.length !== 0 && (
           <div className={styles.cart__summary}>
             <p>

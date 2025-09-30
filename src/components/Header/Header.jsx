@@ -21,6 +21,9 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Calculate total items including quantity
+  const totalItems = basket.reduce((count, item) => count + (item.qty || 1), 0);
+
   return (
     <header className={classes.header}>
       {/* Main Header Section */}
@@ -29,7 +32,6 @@ const Header = () => {
           
           {/* First Div: Logo, Delivery, Icon */}
           <div className={classes.header__first}>
-            {/* Logo */}
             <Link to='/' className={classes.header__logo}>
               <img 
                 src="https://pngimg.com/uploads/amazon/amazon_PNG11.png" 
@@ -38,7 +40,6 @@ const Header = () => {
               />
             </Link>
 
-            {/* Delivery */}
             <div className={classes.header__delivery}>
               <FaMapMarkerAlt className={classes.header__delivery__icon} />
               <div className={classes.header__delivery__info}>
@@ -50,13 +51,11 @@ const Header = () => {
 
           {/* Second Div: All Dropdown, Search */}
           <div className={classes.header__second}>
-            {/* All Dropdown */}
             <div className={classes.header__dropdown}>
               <span className={classes.header__dropdown__text}>All</span>
               <FaCaretDown className={classes.header__dropdown__icon} />
             </div>
 
-            {/* Search Bar */}
             <div className={classes.header__search}>
               <input 
                 type="text" 
@@ -71,7 +70,6 @@ const Header = () => {
 
           {/* Third Div: Flag, Sign In, Orders, Cart */}
           <div className={classes.header__third}>
-            {/* Flag & Language */}
             <div className={classes.header__language}>
               <img 
                 src="https://flagcdn.com/w40/et.png" 
@@ -81,7 +79,7 @@ const Header = () => {
               <span className={classes.header__language__code}>ET</span>
               <FaCaretDown className={classes.header__language__icon} />
             </div>
-            {/* SignUp */}
+
             <Link to='/auth' className={classes.header__account}>
               <div className={classes.header__account__greeting}>Hello, sign in</div>
               <div className={classes.header__account__action}>
@@ -89,21 +87,19 @@ const Header = () => {
               </div>
             </Link>
 
-            {/* Returns & Orders */}
             <Link to='/orders' className={classes.header__orders}>
               <div className={classes.header__orders__returns}>Returns</div>
               <div className={classes.header__orders__text}>& Orders</div>
             </Link>
 
-            {/* Cart */}
+            {/* Cart with total quantity */}
             <Link to='/cart' className={classes.header__cart}>
-            <div className={classes.header__cart__info}>
-              <span className={classes.header__cart__count}>{basket?.length}</span>
-              <FaShoppingCart className={classes.header__cart__icon} />
-            </div>
-          </Link>
+              <div className={classes.header__cart__info}>
+                <span className={classes.header__cart__count}>{totalItems}</span>
+                <FaShoppingCart className={classes.header__cart__icon} />
+              </div>
+            </Link>
 
-            {/* Mobile Menu Button */}
             <button 
               className={classes.header__mobile__button}
               onClick={toggleMobileMenu}

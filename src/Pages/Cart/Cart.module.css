@@ -159,3 +159,34 @@
     max-width: 100%;
   }
 }
+
+/* Quantity control buttons */
+.qtyControl {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.qtyBtn {
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f0f0f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.qtyBtn:hover {
+  background: #e2e2e2;
+}
+
+.qtyControl span {
+  width: 25px;
+  text-align: center;
+  display: inline-block;
+}
+
