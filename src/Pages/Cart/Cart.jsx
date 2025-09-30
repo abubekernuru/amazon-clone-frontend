@@ -1,9 +1,42 @@
+// src/pages/Cart/Cart.jsx
 import React, { useContext } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { DataContext } from '../../components/DataProvider/DataProvider';
 import CurrencyFormat from '../../components/CurrencyFormat/CurrencyFormat';
-import ProductCard from '../../components/Product/ProductCard';
 import styles from './Cart.module.css';
+import { Type } from '../../Utility/action.type';
+
+// Cart item component
+const CartItem = ({ item }) => {
+  const [{ basket }, dispatch] = useContext(DataContext);
+
+  const increment = () => {
+    dispatch({ type: Type.ADD_TO_BASKET, item });
+  };
+
+  const decrement = () => {
+    if (item.qty > 1) {
+      dispatch({ type: Type.DECREASE_QTY, id: item.id });
+    } else {
+      dispatch({ type: Type.REMOVE_FROM_BASKET, id: item.id });
+    }
+  };
+
+  return (
+    <div className={styles.cartItem}>
+      <img src={item.image} alt={item.title} className={styles.cartItemImg} />
+      <div className={styles.cartItemInfo}>
+        <h4>{item.title}</h4>
+        <p>${item.price}</p>
+        <div className={styles.qtyControl}>
+          <button onClick={decrement}>-</button>
+          <span>{item.qty}</span>
+          <button onClick={increment}>+</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 function Cart() {
   const [{ basket }] = useContext(DataContext);
@@ -28,19 +61,10 @@ function Cart() {
           <h2>Hello</h2>
           <h3>Your shopping basket</h3>
           <hr />
-
           {basket.length === 0 ? (
             <p>Oops! No item in your cart</p>
           ) : (
-            basket.map((item, i) => (
-              <ProductCard
-                key={i}
-                product={item}
-                renderDest={true}
-                flex={true}
-                renderAdd={false} // hide "Add to Cart" button
-              />
-            ))
+            basket.map((item) => <CartItem key={item.id} item={item} />)
           )}
         </div>
 
