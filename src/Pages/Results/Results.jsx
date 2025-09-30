@@ -1,24 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import Layout from '../../components/Layout/Layout'
-import classes from './Results.module.css'
-import Loader from '../../components/Loader/Loader'
-import ProductCard from '../../components/Product/ProductCard'
-import { useParams } from 'react-router'
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
+import Layout from '../../components/Layout/Layout';
+import classes from './Results.module.css';
+import Loader from '../../components/Loader/Loader';
+import ProductCard from '../../components/Product/ProductCard';
+import { useParams } from 'react-router';
+import axios from 'axios';
 
 function Results() {
   const [results, setResults] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { categoryName } = useParams(); // Get category from URL if needed
+  const { categoryName } = useParams();
 
-  // This would typically fetch filtered products based on search or category
   useEffect(() => {
     const fetchResults = async () => {
       try {
         setIsLoading(true);
-        // Example: Fetch all products or filtered products
-        const response = await axios.get('https://fakestoreapi.com/products');
+
+        let url = 'https://fakestoreapi.com/products';
+        if (categoryName) {
+          url = `https://fakestoreapi.com/products/category/${categoryName}`;
+        }
+
+        const response = await axios.get(url);
         setResults(response.data);
         setError(null);
       } catch (err) {
@@ -30,34 +34,36 @@ function Results() {
     };
 
     fetchResults();
-  }, []); // Add dependencies here if you want to refetch when category changes
+  }, [categoryName]);
 
   return (
     <Layout>
-      <section>
-        <h1 style={{ padding: '30px' }}>Results</h1>
-        <p style={{ padding: '30px' }}>
-          {categoryName ? `Category / ${categoryName}` : 'All Products'}
-        </p>
+      <section className={classes.results_container}>
+        <div className={classes.results_header}>
+          <h1>Results</h1>
+          <p>{categoryName ? `Category / ${categoryName}` : 'All Products'}</p>
+        </div>
         <hr />
-        
+
         {isLoading ? (
           <Loader />
         ) : error ? (
-          <div style={{ textAlign: 'center', padding: '50px' }}>
+          <div className={classes.no_results}>
             <h2>{error}</h2>
           </div>
         ) : (
           <div className={classes.products_container}>
             {results.length > 0 ? (
               results.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                />
+                <div key={product.id} className={classes.product_card}>
+                  <ProductCard
+                    product={product}
+                    renderAdd={true}
+                  />
+                </div>
               ))
             ) : (
-              <div style={{ textAlign: 'center', padding: '50px' }}>
+              <div className={classes.no_results}>
                 <h2>No products found</h2>
               </div>
             )}
@@ -65,7 +71,7 @@ function Results() {
         )}
       </section>
     </Layout>
-  )
+  );
 }
 
-export default Results
+export default Results;

@@ -18,16 +18,14 @@ function Product() {
             console.log(err);
             setError('Failed to load products');
         }).finally(() => {
-            setLoading(false); // This runs whether success or error
+            setLoading(false); 
         });
     }, []);
 
-    // Show loader while loading
     if (loading) {
         return <Loader />;
     }
 
-    // Show error message if there's an error
     if (error) {
         return (
             <div style={{ textAlign: 'center', padding: '50px' }}>
@@ -40,7 +38,9 @@ function Product() {
         <section className={styles.productsContainer}>
             {products.length > 0 ? (
                 products.map((singleProduct) => (
-                    <ProductCard key={singleProduct.id} product={singleProduct} />
+                    <ProductCard 
+                    renderAdd={true}
+                    key={singleProduct.id} product={singleProduct} />
                 ))
             ) : (
                 <h2>No products found</h2>

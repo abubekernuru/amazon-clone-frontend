@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import classes from './Header.module.css';
 import LowerHeader from './LowerHeader';
 import { Link } from 'react-router';
+import { DataContext } from '../DataProvider/DataProvider';
 import { 
   FaMapMarkerAlt, 
   FaSearch, 
@@ -13,6 +14,8 @@ import {
 
 const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const [{ basket }] = useContext(DataContext);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -94,11 +97,11 @@ const Header = () => {
 
             {/* Cart */}
             <Link to='/cart' className={classes.header__cart}>
-              <div className={classes.header__cart__info}>
-                <span className={classes.header__cart__count}>0</span>
-                <FaShoppingCart className={classes.header__cart__icon} />
-              </div>
-            </Link>
+            <div className={classes.header__cart__info}>
+              <span className={classes.header__cart__count}>{basket?.length}</span>
+              <FaShoppingCart className={classes.header__cart__icon} />
+            </div>
+          </Link>
 
             {/* Mobile Menu Button */}
             <button 
