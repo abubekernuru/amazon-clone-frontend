@@ -1,12 +1,12 @@
 import React, { createContext, useReducer } from "react";
 import { initialState, reducer } from "../../Utility/reducer";
 
-// Create Context
 export const DataContext = createContext();
 
 const DataProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(reducer, initialState);
     return (
-        <DataContext.Provider value={useReducer(reducer, initialState)}>
+        <DataContext.Provider value={[state, dispatch]}>
             {children}
         </DataContext.Provider>
     );

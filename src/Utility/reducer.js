@@ -1,4 +1,3 @@
-// src/Utility/reducer.js
 import { Type } from './action.type';
 
 export const initialState = {

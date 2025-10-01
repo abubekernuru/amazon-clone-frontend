@@ -21,7 +21,6 @@ const Header = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  // Calculate total items including quantity
   const totalItems = basket.reduce((count, item) => count + (item.qty || 1), 0);
 
   return (

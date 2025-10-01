@@ -1,4 +1,3 @@
-// src/pages/Cart/Cart.jsx
 import React, { useContext } from 'react';
 import Layout from '../../components/Layout/Layout';
 import { DataContext } from '../../components/DataProvider/DataProvider';
@@ -9,7 +8,7 @@ import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'; // import arrows
 
 // Cart item component
 const CartItem = ({ item }) => {
-  const [{ basket }, dispatch] = useContext(DataContext);
+  const [, dispatch] = useContext(DataContext);
 
   const increment = () => {
     dispatch({ type: Type.ADD_TO_BASKET, item });
