@@ -1,0 +1,165 @@
+/* Main Auth Container */
+.auth {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: white;
+  padding: 20px;
+}
+
+/* Amazon Logo */
+.logo {
+  margin: 20px 0;
+  display: block;
+}
+
+.logo img {
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Form Container - Amazon Style */
+.authContainer {
+  width: 100%;
+  max-width: 350px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px 26px;
+  display: flex;
+  flex-direction: column;
+  background: white;
+}
+
+.authContainer h1 {
+  font-weight: 400;
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #0F1111;
+}
+
+/* Form Styles */
+.authForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #0F1111;
+}
+
+.formGroup input {
+  padding: 8px 10px;
+  border: 1px solid #a6a6a6;
+  border-radius: 3px;
+  font-size: 13px;
+  transition: all 0.1s ease;
+}
+
+.formGroup input:focus {
+  outline: none;
+  border-color: #e77600;
+  box-shadow: 0 0 3px 2px rgba(228, 121, 17, 0.5);
+}
+
+/* Submit Button */
+.submitButton {
+  background: #FFD814;
+  border: 1px solid #FCD200;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover {
+  background: #F7CA00;
+}
+
+/* Agreement Text */
+.agreement {
+  margin: 20px 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #0F1111;
+}
+
+.agreement a {
+  color: #0066c0;
+  text-decoration: none;
+}
+
+.agreement a:hover {
+  color: #c45500;
+  text-decoration: underline;
+}
+
+/* Divider */
+.divider {
+  position: relative;
+  text-align: center;
+  margin: 20px 0;
+  color: #767676;
+  font-size: 12px;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: #e7e7e7;
+}
+
+.divider span {
+  background: white;
+  padding: 0 8px;
+  position: relative;
+}
+
+/* Create Account Button */
+.createAccountButton {
+  background: white;
+  border: 1px solid #d5d9d9;
+  border-radius: 8px;
+  padding: 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #0F1111;
+  transition: all 0.2s ease;
+}
+
+.createAccountButton:hover {
+  background-color: #f7f7f7;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+  .auth {
+    padding: 10px;
+  }
+  
+  .authContainer {
+    border: none;
+    padding: 20px;
+    max-width: 100%;
+  }
+  
+  .logo img {
+    width: 80px;
+  }
+}
