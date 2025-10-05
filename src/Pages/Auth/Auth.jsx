@@ -2,14 +2,18 @@ import React, { useState } from 'react';
 import classes from './SignUp.module.css';
 import Layout from '../../components/Layout/Layout';
 import { Link } from 'react-router';
+import { auth } from '../../Utility/firebase'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { ClipLoader } from 'react-spinners';
 
-function Auth() {
+function Authentication() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: ''
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -18,10 +22,50 @@ function Auth() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Add your authentication logic here
+    const { name, email, password } = formData;
+    // Basic validation
+    if (!email || !password || (!isLogin && !name)) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+    try {
+      setLoading(true);
+      if (isLogin) {
+        // Sign in existing user
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        console.log('Signed in:', userCredential.user);
+        alert('Signed in successfully');
+      } else {
+        // Create new user
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        console.log('Account created:', userCredential.user);
+        alert('Account created successfully');
+        // optional: switch to login mode after successful signup
+        setIsLogin(true);
+      }
+      // Clear form after successful auth
+      setFormData({ name: '', email: '', password: '' });
+      setLoading(false);
+    } catch (error) {
+      console.error('Authentication error:', error);
+      // Friendly message for beginners
+      alert(error.message || 'Authentication failed. Please try again.');
+      setLoading(false);
+    }
+  };
+
+
+  if (loading) {
+    return (
+      <div className={classes.loaderContainer}>
+        <ClipLoader size={50} color={"#123abc"} loading={loading} />
+      </div>
+    );
+    
   };
 
   const toggleMode = () => {
@@ -112,4 +156,4 @@ function Auth() {
   );
 }
 
-export default Auth;
+export default Authentication;
