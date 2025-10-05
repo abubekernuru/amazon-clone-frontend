@@ -34,7 +34,7 @@ const Header = () => {
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      alert("Signed out successfully!");
+      // alert("Signed out successfully!");
       setIsAccountDropdownOpen(false);
     } catch (err) {
       console.error("Error signing out:", err);

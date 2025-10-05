@@ -40,17 +40,17 @@ function Authentication() {
       setLoading(true);
 
       if (isLogin) {
-        // 🔹 Sign In existing user
+        //  Sign In existing user
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log('Signed in:', userCredential.user);
-        alert('Signed in successfully!');
-        navigate('/'); // ✅ redirect to home after sign-in
+        // alert('Signed in successfully!');
+        navigate('/');
       } else {
-        // 🔹 Create new user
+        //  Create new user
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log('Account created:', userCredential.user);
-        alert('Account created successfully!');
-        navigate('/'); // ✅ redirect to home after sign-up
+        // alert('Account created successfully!');
+        navigate('/'); 
       }
 
       setFormData({ name: '', email: '', password: '' });
