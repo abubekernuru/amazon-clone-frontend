@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import classes from './SignUp.module.css';
 import Layout from '../../components/Layout/Layout';
-import { Link } from 'react-router';
-import { auth } from '../../Utility/firebase'
+import { Link, useNavigate } from 'react-router'; // ✅ Import useNavigate from react-router
+import { auth } from '../../Utility/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { ClipLoader } from 'react-spinners';
 
 function Authentication() {
+  const navigate = useNavigate(); // ✅ initialize navigate
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -14,7 +15,9 @@ function Authentication() {
     password: ''
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
+  // handle input change
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,72 +25,65 @@ function Authentication() {
     });
   };
 
+  // handle form submit
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    console.log('Form submitted:', formData);
     const { name, email, password } = formData;
-    // Basic validation
+
     if (!email || !password || (!isLogin && !name)) {
-      alert('Please fill in all required fields.');
+      setError("Please fill in all required fields.");
       return;
     }
+
     try {
+      setError(null);
       setLoading(true);
+
       if (isLogin) {
-        // Sign in existing user
+        // 🔹 Sign In existing user
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log('Signed in:', userCredential.user);
-        alert('Signed in successfully');
+        alert('Signed in successfully!');
+        navigate('/'); // ✅ redirect to home after sign-in
       } else {
-        // Create new user
+        // 🔹 Create new user
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         console.log('Account created:', userCredential.user);
-        alert('Account created successfully');
-        // optional: switch to login mode after successful signup
-        setIsLogin(true);
+        alert('Account created successfully!');
+        navigate('/'); // ✅ redirect to home after sign-up
       }
-      // Clear form after successful auth
+
       setFormData({ name: '', email: '', password: '' });
-      setLoading(false);
-    } catch (error) {
-      console.error('Authentication error:', error);
-      // Friendly message for beginners
-      alert(error.message || 'Authentication failed. Please try again.');
+    } catch (err) {
+      console.error('Authentication error:', err);
+      setError(err.message || 'Authentication failed. Please try again.');
+    } finally {
       setLoading(false);
     }
   };
 
-
-  if (loading) {
-    return (
-      <div className={classes.loaderContainer}>
-        <ClipLoader size={50} color={"#123abc"} loading={loading} />
-      </div>
-    );
-    
-  };
-
+  // switch between login and signup
   const toggleMode = () => {
     setIsLogin(!isLogin);
     setFormData({ name: '', email: '', password: '' });
+    setError(null);
   };
 
   return (
     <Layout>
       <section className={classes.auth}>
-        {/* Logo */}
+        {/* Amazon logo */}
         <Link to="/" className={classes.logo}>
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" 
             alt="amazon logo" 
           />
         </Link>
-        
-        {/* Form Container */}
+
+        {/* form */}
         <div className={classes.authContainer}>
           <h1>{isLogin ? 'Sign In' : 'Create Account'}</h1>
-          
+
           <form onSubmit={handleSubmit} className={classes.authForm}>
             {!isLogin && (
               <div className={classes.formGroup}>
@@ -102,7 +98,7 @@ function Authentication() {
                 />
               </div>
             )}
-            
+
             <div className={classes.formGroup}>
               <label htmlFor="email">Email</label>
               <input 
@@ -114,7 +110,7 @@ function Authentication() {
                 required
               />
             </div>
-            
+
             <div className={classes.formGroup}>
               <label htmlFor="password">Password</label>
               <input 
@@ -126,12 +122,23 @@ function Authentication() {
                 required
               />
             </div>
-            
-            <button type="submit" className={classes.submitButton}>
-              {isLogin ? 'Sign In' : 'Create your Amazon account'}
+
+            {/* Sign In or Create button */}
+            <button type="submit" className={classes.submitButton} disabled={loading}>
+              {loading ? (
+                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <ClipLoader size={20} color={"#fff"} loading={loading} />
+                  <span style={{ marginLeft: '10px' }}>Please wait...</span>
+                </span>
+              ) : (
+                isLogin ? 'Sign In' : 'Create your Amazon account'
+              )}
             </button>
           </form>
-          
+
+          {/* Error message below the button */}
+          {error && <p className={classes.errorMessage}>{error}</p>}
+
           <div className={classes.agreement}>
             <p>
               By continuing, you agree to Amazon clone's fake 
@@ -139,11 +146,11 @@ function Authentication() {
               <Link to="/privacy"> Privacy Notice</Link>.
             </p>
           </div>
-          
+
           <div className={classes.divider}>
             <span>New to Amazon?</span>
           </div>
-          
+
           <button 
             onClick={toggleMode}
             className={classes.createAccountButton}

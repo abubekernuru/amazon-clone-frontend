@@ -593,3 +593,38 @@
     display: none;
   }
 }
+
+
+/* ===== MOBILE MENU ===== */
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  background-color: #232f3e;
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  border-top: 1px solid #3a4553;
+}
+
+.mobileMenuItem {
+  padding: 12px 20px;
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
+  border-bottom: 1px solid #3a4553;
+}
+
+.mobileMenuItem:hover {
+  background-color: #37475a;
+}
+
+.accountDropdown {
+  position: relative;
+  background-color: #232f3e;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: 14px;
+}
