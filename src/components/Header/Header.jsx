@@ -46,11 +46,14 @@ const Header = () => {
     0
   );
 
-  const userName = user?.displayName
-    ? user.displayName.split(" ")[0]
-    : user
-    ? "User"
-    : null;
+ const userName = user
+  ? user.displayName
+    ? user.displayName.split(" ")[0] 
+    : user.email
+    ? user.email.split("@")[0] 
+    : "User" 
+  : null; 
+
 
   return (
     <header className={classes.header}>
