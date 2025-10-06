@@ -46,13 +46,12 @@ const Header = () => {
     0
   );
 
- const userName = user
-  ? user.displayName
-    ? user.displayName.split(" ")[0] 
-    : user.email
-    ? user.email.split("@")[0] 
-    : "User" 
-  : null; 
+ const userName = user?.displayName
+  ? user.displayName.split(" ")[0] // get first word (before the space)
+  : user?.email
+  ? user.email.split("@")[0]       // fallback: first part of email
+  : "Guest";
+
 
 
   return (

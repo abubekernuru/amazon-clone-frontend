@@ -46,11 +46,12 @@ export const reducer = (state, action) => {
       };
 
       case Type.SET_USER:
-        return {
-          ...state,
-          user: action.user,
-          isAuthenticated: !!action.user
-        }
+      return {
+        ...state,
+        user: action.user,
+        isAuthenticated: !!action.user
+      };
+
 
     default:
       return state;
