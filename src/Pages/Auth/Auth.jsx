@@ -19,7 +19,7 @@ function Authentication() {
 
   // handle input change
   const handleChange = (e) => {
-    setFormData({
+    setFormData({ 
       ...formData,
       [e.target.name]: e.target.value
     });
