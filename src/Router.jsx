@@ -8,6 +8,11 @@ import Cart from './Pages/Cart/Cart'
 import Results from './Pages/Results/Results'
 import ProductDetail from './Pages/ProductDetail/ProductDetail'
 import Category from './components/Category/Category';
+import {CheckoutProvider} from '@stripe/react-stripe-js/checkout';
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY);
 
 function Routing() {
   return (
@@ -15,7 +20,12 @@ function Routing() {
         <Routes>
             <Route path="/" element={<Landing/>} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/payments" element={<Payment />} />
+            
+            <Route path="/payments" element={
+              <Elements stripe={stripePromise}>
+                <Payment />
+              </Elements>
+            } />
             <Route path="/orders" element={<Orders />} />
             <Route path="/cart" element={<Cart />} />
             <Route path="/product/:productId" element={<ProductDetail />} />

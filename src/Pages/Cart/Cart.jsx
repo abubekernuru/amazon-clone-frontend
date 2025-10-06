@@ -4,7 +4,8 @@ import { DataContext } from '../../components/DataProvider/DataProvider';
 import CurrencyFormat from '../../components/CurrencyFormat/CurrencyFormat';
 import styles from './Cart.module.css';
 import { Type } from '../../Utility/action.type';
-import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'; // import arrows
+import { AiOutlineUp, AiOutlineDown } from 'react-icons/ai'; 
+import { Link } from 'react-router';
 
 // Cart item component
 const CartItem = ({ item }) => {
@@ -81,9 +82,9 @@ function Cart() {
               <input type="checkbox" />
               <span>This order contains a gift</span>
             </div>
-            <button className={styles.cart__checkout}>
+            <Link to="/payments" className={styles.cart__checkout}>
               Proceed to Checkout
-            </button>
+            </Link>
           </div>
         )}
       </section>
