@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import classes from './SignUp.module.css';
 import Layout from '../../components/Layout/Layout';
-import { Link, useNavigate } from 'react-router'; // ✅ Import useNavigate from react-router
+import { Link, useLocation, useNavigate } from 'react-router'; 
 import { auth } from '../../Utility/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { ClipLoader } from 'react-spinners';
+import { DataContext } from '../../components/DataProvider/DataProvider';
 
 function Authentication() {
-  const navigate = useNavigate(); // ✅ initialize navigate
+  const navigate = useNavigate(); 
+  const [{ user }, dispatch] = useContext(DataContext);
+  const navStateData = useLocation();
+
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
     name: '',
@@ -17,7 +21,6 @@ function Authentication() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // handle input change
   const handleChange = (e) => {
     setFormData({ 
       ...formData,
@@ -25,7 +28,6 @@ function Authentication() {
     });
   };
 
-  // handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password } = formData;
@@ -35,34 +37,77 @@ function Authentication() {
       return;
     }
 
+    // Password validation for signup
+    if (!isLogin && password.length < 6) {
+      setError("Password should be at least 6 characters");
+      return;
+    }
+
     try {
       setError(null);
       setLoading(true);
 
       if (isLogin) {
-        //  Sign In existing user
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         console.log('Signed in:', userCredential.user);
-        // alert('Signed in successfully!');
-        navigate('/');
+        
+        // Dispatch user to context
+        dispatch({
+          type: "SET_USER",
+          user: userCredential.user,
+        });
       } else {
-        //  Create new user
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        // Update profile with display name
+        if (name) {
+          await updateProfile(userCredential.user, {
+            displayName: name
+          });
+        }
+        
         console.log('Account created:', userCredential.user);
-        // alert('Account created successfully!');
-        navigate('/'); 
+        
+        // Dispatch user to context
+        dispatch({
+          type: "SET_USER",
+          user: {
+            ...userCredential.user,
+            displayName: name
+          },
+        });
       }
 
+      const redirectPath = navStateData.state?.redirect || '/';
+      navigate(redirectPath, { replace: true });
+
+      // Clear form
       setFormData({ name: '', email: '', password: '' });
     } catch (err) {
       console.error('Authentication error:', err);
-      setError(err.message || 'Authentication failed. Please try again.');
+      
+      // error messages
+      let errorMessage = 'Authentication failed. Please try again.';
+      if (err.code === 'auth/email-already-in-use') {
+        errorMessage = 'This email is already registered. Please sign in instead.';
+      } else if (err.code === 'auth/invalid-email') {
+        errorMessage = 'Invalid email address.';
+      } else if (err.code === 'auth/user-not-found') {
+        errorMessage = 'No account found with this email.';
+      } else if (err.code === 'auth/wrong-password') {
+        errorMessage = 'Incorrect password. Please try again.';
+      } else if (err.code === 'auth/weak-password') {
+        errorMessage = 'Password is too weak. Please use at least 6 characters.';
+      } else if (err.code === 'auth/network-request-failed') {
+        errorMessage = 'Network error. Please check your connection.';
+      }
+      
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  // switch between login and signup
   const toggleMode = () => {
     setIsLogin(!isLogin);
     setFormData({ name: '', email: '', password: '' });
@@ -72,7 +117,6 @@ function Authentication() {
   return (
     <Layout>
       <section className={classes.auth}>
-        {/* Amazon logo */}
         <Link to="/" className={classes.logo}>
           <img 
             src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" 
@@ -80,9 +124,14 @@ function Authentication() {
           />
         </Link>
 
-        {/* form */}
         <div className={classes.authContainer}>
           <h1>{isLogin ? 'Sign In' : 'Create Account'}</h1>
+
+          {navStateData.state?.msg && (
+            <p className={classes.redirectMessage}>
+              {navStateData.state.msg}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className={classes.authForm}>
             {!isLogin && (
@@ -95,6 +144,7 @@ function Authentication() {
                   value={formData.name}
                   onChange={handleChange}
                   required={!isLogin}
+                  disabled={loading}
                 />
               </div>
             )}
@@ -108,6 +158,7 @@ function Authentication() {
                 value={formData.email}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
             </div>
 
@@ -120,15 +171,20 @@ function Authentication() {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                disabled={loading}
+                minLength={isLogin ? undefined : 6}
               />
             </div>
 
-            {/* Sign In or Create button */}
-            <button type="submit" className={classes.submitButton} disabled={loading}>
+            <button 
+              type="submit" 
+              className={classes.submitButton} 
+              disabled={loading}
+            >
               {loading ? (
-                <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <span className={classes.loadingContent}>
                   <ClipLoader size={20} color={"#fff"} loading={loading} />
-                  <span style={{ marginLeft: '10px' }}>Please wait...</span>
+                  <span>Please wait...</span>
                 </span>
               ) : (
                 isLogin ? 'Sign In' : 'Create your Amazon account'
@@ -136,7 +192,6 @@ function Authentication() {
             </button>
           </form>
 
-          {/* Error message below the button */}
           {error && <p className={classes.errorMessage}>{error}</p>}
 
           <div className={classes.agreement}>
@@ -148,12 +203,14 @@ function Authentication() {
           </div>
 
           <div className={classes.divider}>
-            <span>New to Amazon?</span>
+            <span>{isLogin ? 'New to Amazon?' : 'Already have an account?'}</span>
           </div>
 
           <button 
             onClick={toggleMode}
             className={classes.createAccountButton}
+            disabled={loading}
+            type="button"
           >
             {isLogin ? 'Create your Amazon account' : 'Sign In to existing account'}
           </button>
