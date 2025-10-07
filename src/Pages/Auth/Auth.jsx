@@ -9,7 +9,7 @@ import { DataContext } from '../../components/DataProvider/DataProvider';
 
 function Authentication() {
   const navigate = useNavigate(); 
-  const [{ user }, dispatch] = useContext(DataContext);
+  const [, dispatch] = useContext(DataContext);
   const navStateData = useLocation();
 
   const [isLogin, setIsLogin] = useState(true);
