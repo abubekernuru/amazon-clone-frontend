@@ -17,4 +17,4 @@ This is a simple Amazon clone built using React, Stripe and Firebase. It feature
 
 ## Deployment
 Frontend deployed using Netlify: https://amazon-frontenda.netlify.app/
-Backend deployed using Firebase: https://amazon-api-deploy-2-63ta.onrender.com
+Backend deployed using Render: https://amazon-api-deploy-2-63ta.onrender.com
